@@ -64,7 +64,7 @@ namespace VolumeControl
                         keybd_event((byte)Keys.VolumeMute, 0, 0, 0);
                     }
                 }
-            }
+&            }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
     }
