@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace VolumeControl
@@ -10,7 +11,17 @@ namespace VolumeControl
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            if (File.Exists(MainForm.path))
+            {
+                MainForm mainForm = new MainForm();
+                mainForm.WindowState = FormWindowState.Minimized;
+                mainForm.ShowInTaskbar = false;
+                Application.Run(mainForm);
+            }
+            else
+            {
+                Application.Run(new MainForm());
+            }
         }
     }
 }
