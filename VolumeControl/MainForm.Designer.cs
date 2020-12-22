@@ -7,7 +7,7 @@
         {
             if (disposing && (components != null))
             {
-                UnhookWindowsHookEx(_hookID);
+                Hook.UnhookWindowsHookEx(Hook._hookID);
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -18,7 +18,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.restoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.volUpComboBox = new System.Windows.Forms.ComboBox();
             this.volDownComboBox = new System.Windows.Forms.ComboBox();
@@ -27,6 +27,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
+            this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.restoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -42,22 +44,24 @@
             // contextMenuStrip
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showToolStripMenuItem,
+            this.pauseToolStripMenuItem,
             this.restoreToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip1";
-            this.contextMenuStrip.Size = new System.Drawing.Size(114, 48);
+            this.contextMenuStrip.Size = new System.Drawing.Size(181, 114);
             // 
-            // restoreToolStripMenuItem
+            // showToolStripMenuItem
             // 
-            this.restoreToolStripMenuItem.Name = "restoreToolStripMenuItem";
-            this.restoreToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
-            this.restoreToolStripMenuItem.Text = "Restore";
-            this.restoreToolStripMenuItem.Click += new System.EventHandler(this.restoreToolStripMenuItem_Click);
+            this.showToolStripMenuItem.Name = "showToolStripMenuItem";
+            this.showToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showToolStripMenuItem.Text = "Show";
+            this.showToolStripMenuItem.Click += new System.EventHandler(this.restoreToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -66,6 +70,7 @@
             this.volUpComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.volUpComboBox.FormattingEnabled = true;
             this.volUpComboBox.Items.AddRange(new object[] {
+            "Not set",
             "F1",
             "F2",
             "F3",
@@ -88,6 +93,7 @@
             this.volDownComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.volDownComboBox.FormattingEnabled = true;
             this.volDownComboBox.Items.AddRange(new object[] {
+            "Not set",
             "F1",
             "F2",
             "F3",
@@ -110,6 +116,7 @@
             this.volMuteComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.volMuteComboBox.FormattingEnabled = true;
             this.volMuteComboBox.Items.AddRange(new object[] {
+            "Not set",
             "F1",
             "F2",
             "F3",
@@ -164,6 +171,21 @@
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.KeyBind);
             // 
+            // pauseToolStripMenuItem
+            // 
+            this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
+            this.pauseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pauseToolStripMenuItem.Text = "Pause";
+            this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
+            // 
+            // restoreToolStripMenuItem
+            // 
+            this.restoreToolStripMenuItem.Name = "restoreToolStripMenuItem";
+            this.restoreToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.restoreToolStripMenuItem.Text = "Restore";
+            this.restoreToolStripMenuItem.Visible = false;
+            this.restoreToolStripMenuItem.Click += new System.EventHandler(this.restoreToolStripMenuItem_Click_1);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -182,11 +204,11 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Volume Control";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(MainForm_FormClosing);
 
         }
         private System.Windows.Forms.NotifyIcon notifyIcon;
@@ -198,8 +220,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem restoreToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pauseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem restoreToolStripMenuItem;
     }
 }
 
